@@ -1,0 +1,15 @@
+{
+  "id": 0,
+  "species": "roach",
+  "weight": "2.5lb",
+  "length": "32cm",
+  "lat": 51.055551,
+  "long": -1.769147,
+  "photoUrls": [
+    "string"
+  ],
+  "tags": [{
+    "id": 0,
+    "name": "string"
+  }]
+}

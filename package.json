@@ -1,0 +1,27 @@
+{
+  "name": "fyb-server",
+  "version": "0.9.0",
+  "description": "Server code cribbing from seneca",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "pretest": "eslint src/**"
+  },
+  "keywords": [
+    "microservice",
+    "fyb",
+    "fishing-year-book"
+  ],
+  "author": "josephh@rocketmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "seneca": "^3.7.0",
+    "seneca-web": "^2.2.1",
+    "seneca-web-adapter-express": "^1.1.2"
+  },
+  "devDependencies": {
+    "eslint": "^5.6.1"
+  }
+}
