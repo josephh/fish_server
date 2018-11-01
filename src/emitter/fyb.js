@@ -61,6 +61,8 @@ seneca.use('../plugin/catch-store');
     }
   ]
 }*/
+
+/*
 seneca.act({
   role: 'store',
   entity: 'catch',
@@ -72,4 +74,12 @@ seneca.act({
   long: -1.769147,
   photoUrls: [],
   angler: 'Jon J'}
+, console.log);
+*/
+
+seneca.act({
+  role: 'store',
+  entity: 'catch',
+  operation: 'remove',
+  id: '4'}
 , console.log);

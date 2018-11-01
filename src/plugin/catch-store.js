@@ -7,11 +7,13 @@ function catchStore(/* options */) { // the function identifier/name is the equi
   this.add("role:store,entity:catch,operation:fetchByAngler", getByAngler);
   this.add("role:store,entity:catch,operation:fetchBySpecies", getBySpecies);
   this.add("role:store,entity:catch,operation:add", create);
+  this.add("role:store,entity:catch,operation:remove", deleteCatch);
 
-  function init(){}
   /**
   read all files during plugin init - cache all catches here
   on write of new catch - add to exising cache
+
+  init()
   */
 
   function get(msg, respond) {
@@ -66,13 +68,27 @@ function catchStore(/* options */) { // the function identifier/name is the equi
       tags: msg.tags
     };
     var fileName = `catch_${newCatch.id}.json`;
-    console.log(`\n file name? ${fileName}; new catch? ${newCatch} \n`);
     writeFile(`../data/${fileName}`, JSON.stringify(newCatch), function() {
-      console.log(`file (${fileName}) written OK`);
+      this.log.debug(`file (${fileName}) written OK`);
       respond(null, {
         fishes: newCatch/* || throw Error ??????? */
       });
     });
+  }
+
+  function deleteCatch(msg, respond) {
+    this.log.debug('catchStore plugin: delete function');
+    // read files
+    // find matching id
+    // delete corresponding file
+    var f = `../data/${msg.id}.json`;
+    console.log(`\n about to try n delete ${f} \n`);
+    fs.unlink(f, function(err) {
+      if (err)
+        throw err;
+      console.log(`successfully deleted ${f}`);
+    });
+    respond(null);
   }
 
   function arrayFilter(fieldName, arrayVals, respond) {
