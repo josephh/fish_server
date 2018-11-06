@@ -1,11 +1,10 @@
 var seneca = require('seneca')();
-seneca.use('../plugin/catch-store');
-// seneca.act({
-//   role: 'store',
-//   entity: 'catch',
-//   operation: 'fetch',
-//   id: 1}
-// , console.log);
+seneca.use('../entity/catches');
+seneca.act({
+  entity: 'catches',
+  operation: 'fetch',
+  id: 1}
+, console.log);
 //
 // seneca.act({
 //   role: 'store',
@@ -77,9 +76,9 @@ seneca.act({
 , console.log);
 */
 
-seneca.act({
-  role: 'store',
-  entity: 'catch',
-  operation: 'remove',
-  id: '4'}
-, console.log);
+// seneca.act({
+//   role: 'store',
+//   entity: 'catch',
+//   operation: 'remove',
+//   id: '4'}
+// , console.log);
