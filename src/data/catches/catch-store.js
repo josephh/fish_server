@@ -6,6 +6,7 @@ var store_plugin = function(/* options */) {
 
   this.add("data:store,operation:get", get);
   this.add("data:store,operation:getAll", getAll);
+  this.add("data:store,operation:getBy", getFiltered);
 
   var catches = null, seneca = this;
 
@@ -32,6 +33,16 @@ var store_plugin = function(/* options */) {
   function getAll(msg, respond) {
     respond({
       catches: catches || `No catches found`
+    });
+  }
+
+  function getFiltered(msg, respond) {
+    var filtered = null;
+    this.log.debug(`Anglers : ${msg.anglers ? msg.anglers : 'none'} `);
+    this.log.debug(`Species : ${msg.species}`);
+    this.log.debug(`Location long: ${msg.location.long}; lat: ${msg.location.lat}; radius ${msg.location.radius}`);
+    respond({
+      catches: filtered || `No filtered catches found`
     });
   }
 

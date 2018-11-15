@@ -2,17 +2,32 @@ function catches_plugin(/* options */) { // the function identifier/name is the 
 
   this.use('../data/catches/catch-store');
 
-  this.add("entity:catches,operation:fetch", (msg, respond) => {
-    this.act(`data:store,operation:get,id:${msg.id}`, respond);
-  });
-
-  this.add("entity:catches,operation:fetchAll",  (msg, respond) => {
-    this.act(`data:store,operation:getAll`, respond);
-  });
-
+  // this.add('entity:catches,operation:fetch', (msg, respond) => {
+  //   this.act(`data:store,operation:get,id:${msg.id}`, respond);
+  // });
   //
-  // this.add("role:store,entity:catch,operation:fetchAll", getAll);
-  // this.add("role:store,entity:catch,operation:fetchByAngler", getByAngler);
+  // this.add('entity:catches,operation:fetchAll',  (msg, respond) => {
+  //   this.act('data:store,operation:getAll', respond);
+  // });
+
+  this.add('entity:catches,operation:fetchBy', (msg, respond) => {
+    var args = {data:'store',operation:'getBy'};
+    if(msg.hasOwnProperty('anglers')) {
+      this.log.debug('yep! anglers');
+      args.anglers = msg.anglers;
+    }
+    if(msg.hasOwnProperty('species')) {
+      this.log.debug('yep! spcies');
+      args.species = msg.species;
+    }
+    if(msg.hasOwnProperty('location')) {
+      this.log.debug('yep! anglers');
+      args.location= msg.location;
+    }
+    // jsonic expects commas and sqare brackets to be in quotes...
+    this.act(args, respond);
+  });
+
   // this.add("role:store,entity:catch,operation:fetchBySpecies", getBySpecies);
   // this.add("role:store,entity:catch,operation:add", create);
   // this.add("role:store,entity:catch,operation:remove", deleteCatch);
