@@ -11,17 +11,14 @@ function catches_plugin(/* options */) { // the function identifier/name is the 
   // });
 
   this.add('entity:catches,operation:fetchBy', (msg, respond) => {
-    var args = {data:'store',operation:'getBy'};
-    if(msg.hasOwnProperty('anglers')) {
-      this.log.debug('yep! anglers');
-      args.anglers = msg.anglers;
+    var args = {data:'store', operation:'getBy'};
+    if(msg.hasOwnProperty('angler')) {
+      args.angler = msg.angler;
     }
     if(msg.hasOwnProperty('species')) {
-      this.log.debug('yep! spcies');
       args.species = msg.species;
     }
     if(msg.hasOwnProperty('location')) {
-      this.log.debug('yep! anglers');
       args.location= msg.location;
     }
     // jsonic expects commas and sqare brackets to be in quotes...

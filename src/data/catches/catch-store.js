@@ -1,6 +1,8 @@
 const fs = require('fs'),
   path = require('path'),
-  catchesFilePath = '../data/catches/';
+  catchesFilter = require('./catch-filter'),
+  catchesFilePath = '../data/catches/'
+  ;
 
 var store_plugin = function(/* options */) {
 
@@ -37,12 +39,11 @@ var store_plugin = function(/* options */) {
   }
 
   function getFiltered(msg, respond) {
-    var filtered = null;
-    this.log.debug(`Anglers : ${msg.anglers ? msg.anglers : 'none'} `);
+    this.log.debug(`Anglers : ${msg.angler ? msg.angler : 'none'} `);
     this.log.debug(`Species : ${msg.species}`);
     this.log.debug(`Location long: ${msg.location.long}; lat: ${msg.location.lat}; radius ${msg.location.radius}`);
     respond({
-      catches: filtered || `No filtered catches found`
+      catches: catchesFilter(msg.angler, msg.species, catches) || `No filtered catches found`
     });
   }
 

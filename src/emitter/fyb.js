@@ -15,11 +15,9 @@ seneca.use('../entity/catches');
 seneca.act({
   entity: 'catches',
   operation: 'fetchBy',
-  anglers: [
-    'jon J', 'xavi'
-  ],
+  angler: 'jon J',
   species: [
-    'chub', 'roach'
+    'pike', 'roach'
   ],
   location: {
     long: "51.055551",
