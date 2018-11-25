@@ -3,7 +3,11 @@ function catches_plugin(/* options */) { // the function identifier/name is the 
   this.use('../data/catches/catch-store');
 
   this.add('entity:catches,operation:fetch', (msg, respond) => {
-    this.act(`data:store,operation:get,id:${msg.id}`, respond);
+    if (!msg.hasOwnProperty('id') || !msg.id) {
+      respond({error: 'no id parameter in request'});
+    } else {
+      this.act(`data:store,operation:get,id:${msg.id}`, respond);
+    }
   });
 
   this.add('entity:catches,operation:fetchAll', (msg, respond) => {
@@ -52,11 +56,12 @@ function catches_plugin(/* options */) { // the function identifier/name is the 
     }
   });
 
-  this.add("role:store,entity:catches,operation:add", (msg, respond) => {
+  this.add("entity:catches,operation:add", (msg, respond) => {
     var missingFields = [];
-    if(!msg.hasOwnProperty('angler') || !msg.angler) missingFields.push('angler');
+    if (!msg.hasOwnProperty('angler') || !msg.angler)
+      missingFields.push('angler');
 
-    if(missingFields.length > 0) {
+    if (missingFields.length > 0) {
       respond({error: `missing fields: ${missingFields}`});
     } else {
       var args = {
@@ -77,7 +82,14 @@ function catches_plugin(/* options */) { // the function identifier/name is the 
     }
   });
 
-  // this.add("role:store,entity:catches,operation:remove", deleteCatch);
+  this.add("entity:catches,operation:remove", (msg, respond) => {
+    if (!msg.hasOwnProperty('id') || !msg.id) {
+      respond({error: 'no id parameter in request'});
+    } else {
+      this.act('data:store,operation:delete,id:' + msg.id, respond);
+    }
+  });
+
   // this.add("role:store,entity:catches,operation:amend", update);
   //
   // /**
@@ -101,16 +113,6 @@ function catches_plugin(/* options */) { // the function identifier/name is the 
   //     });  seneca expects 'plain' objects in the response
   //   });
   // }
-
-  function deleteCatch(msg, respond) {
-    var f = `../data/${msg.id}.json`;
-    fs.unlink(f, function(err) {
-      if (err)
-        throw err;
-      }
-    );
-    respond(null, `successfully deleted ${f}`);
-  }
 
   function update(msg, respond) {
     this.log.debug('catchStore plugin: update function');
@@ -142,14 +144,6 @@ function catches_plugin(/* options */) { // the function identifier/name is the 
         'fishes': filtered || 'not found'
       });
     };
-  }
-
-  function writeFile(filePath, data, cb) {
-    fs.writeFile(filePath, data, function(err) {
-      if (err)
-        throw err;
-      cb();
-    });
   }
 
   function readFile(filePath, cb) {
