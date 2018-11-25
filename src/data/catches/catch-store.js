@@ -12,6 +12,7 @@ var store_plugin = function(/* options */) {
   this.add("data:store,operation:getBySpecies", filteredBySpecies);
   this.add("data:store,operation:create", newCatch);
   this.add("data:store,operation:delete", deleteCatch);
+  this.add("data:store,operation:amend", amendCatch);
 
   var catches = null,
     seneca = this;
@@ -72,7 +73,7 @@ var store_plugin = function(/* options */) {
     writeFile(`${catchesFilePath}${fileName}`, JSON.stringify(newCatch), function() {
       seneca.log.info(`file (${fileName}) written OK`);
       catches.push(newCatch);
-      respond(null, {fishes: newCatch});
+      respond(null, {catches: newCatch});
     });
   }
 
@@ -80,10 +81,48 @@ var store_plugin = function(/* options */) {
     var f = `${catchesFilePath}${msg.id}.json`;
     fs.unlink(f, function(err) {
       if (err) {
-        throw 'Failed to delete catch with id ' + msg.id + ' : '  + err;
+        throw 'Failed to delete catch with id ' + msg.id + ' : ' + err;
       } else {
         respond(null, {out: `successfully deleted ${f}`});
       }
+    });
+  }
+
+  function amendCatch(msg, respond) {
+    var existingCatch = msg.args,
+          updatedCatch = catches.filter(elem => elem.id == existingCatch.id)[0];
+    if (updatedCatch) {
+      // overwrite any fields found in the input over the existing record
+      if (existingCatch.hasOwnProperty('species') && existingCatch.species) {
+        updatedCatch.species = existingCatch.species;
+      }
+      if (existingCatch.hasOwnProperty('weight') && existingCatch.weight) {
+        updatedCatch.weight = existingCatch.weight;
+      }
+      if (existingCatch.hasOwnProperty('length') && existingCatch.length) {
+        updatedCatch.length = existingCatch.length;
+      }
+      if (existingCatch.hasOwnProperty('lat') && existingCatch.lat) {
+        updatedCatch.lat = existingCatch.lat;
+      }
+      if (existingCatch.hasOwnProperty('long') && existingCatch.long) {
+        updatedCatch.long = existingCatch.long;
+      }
+      if (existingCatch.hasOwnProperty('angler') && existingCatch.angler) {
+        updatedCatch.angler = existingCatch.angler;
+      }
+      if (existingCatch.hasOwnProperty('photoUrls') && existingCatch.photoUrls) {
+        updatedCatch.photoUrls = existingCatch.photoUrls;
+      }
+      if (existingCatch.hasOwnProperty('tags') && existingCatch.tags) {
+        updatedCatch.tags = existingCatch.tags;
+      }
+    }
+    var fileName = `${updatedCatch.id}.json`;
+    writeFile(`${catchesFilePath}${fileName}`, JSON.stringify(updatedCatch), function() {
+      seneca.log.info(`file (${fileName}) updated OK`);
+      catches.push(updatedCatch);
+      respond(null, {catches: updatedCatch});
     });
   }
 

@@ -29,7 +29,7 @@ seneca.use('../entity/catches');
 // seneca.act({
 //   entity: 'catches',
 //   operation: 'fetchByAngler',
-//   angler: 'sandra X'
+//   angler: 'big dave microsoft'
 // }, console.log);
 //
 // seneca.act({
@@ -37,7 +37,7 @@ seneca.use('../entity/catches');
 //   operation: 'fetchBySpecies',
 //   species: ['roach', 'chub']
 // }, console.log);
-
+//
 // seneca.act({
 //   entity: 'catches',
 //   operation: 'add',
@@ -49,9 +49,18 @@ seneca.use('../entity/catches');
 //   photoUrls: [],
 //   angler: 'Jon J'
 // }, console.log);
-
+//
 // seneca.act({
 //   entity: 'catches',
 //   operation: 'remove',
 //   id: '12'}
 // , console.log);
+
+seneca.act({
+  entity: 'catches',
+  operation: 'update',
+  id: '3',
+  species: 'salmon',
+  angler: 'big dave microsoft'
+},
+console.log);

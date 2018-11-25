@@ -90,69 +90,14 @@ function catches_plugin(/* options */) { // the function identifier/name is the 
     }
   });
 
-  // this.add("role:store,entity:catches,operation:amend", update);
-  //
-  // /**
-  // read all files during plugin init - cache all catches here
-  // on write of new catch - add to exising cache
-  //
-  //  function get(msg, respond) {
-  //    this.log.debug('catchStore plugin: get function');
-  //    readFile("../data/catches.json", function(catchArray) {
-  //      respond(null, {
-  //        'fish': catchArray.filter(elem => elem.id === msg.id)[0] || 'not found'
-  //      });  seneca expects 'plain' objects in the response
-  //    });
-  //  }
-  //
-  // function getAll(msg, respond) {
-  //   this.log.debug('catchStore plugin: getAll function');
-  //   readFile("../data/catches.json", function(catchArray) {
-  //     respond(null, {
-  //       'fishes': catchArray || 'not found'
-  //     });  seneca expects 'plain' objects in the response
-  //   });
-  // }
-
-  function update(msg, respond) {
-    this.log.debug('catchStore plugin: update function');
-    /**
-     read files
-     find matching id
-     update
-     write
-     */
-    var f = `../data/${msg.id}.json`;
-    fs.unlink(f, function(err) {
-      if (err)
-        throw err;
-      }
-    );
-    respond(null, `successfully deleted ${f}`);
-  }
-
-  function arrayFilter(fieldName, arrayVals, respond) {
-    return function(catchArray) {
-      var filtered = filtered = catchArray.filter(function(elem) {
-        /**
-         * make use of Array.filter(...)'s second argument: 'thisArg'.
-         * "Value to use as this when executing callback."
-         */
-        return this.indexOf(elem[fieldName]) > - 1;
-      }, arrayVals);
-      respond(null, {
-        'fishes': filtered || 'not found'
-      });
+  this.add("entity:catches,operation:update", (msg, respond) => {
+    var args = {
+      data: 'store',
+      operation: 'amend',
+      args: msg
     };
-  }
-
-  function readFile(filePath, cb) {
-    fs.readFile(filePath, "utf-8", function(err, data) {
-      if (err)
-        throw err;
-      cb(JSON.parse(data));
-    });
-  }
+    this.act(args, respond);
+  });
 
 }
 
