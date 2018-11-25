@@ -1,7 +1,7 @@
 const fs = require('fs'),
   path = require('path'),
   CatchesFilter = require('./catch-filter'),
-  catchesFilePath = '../data/catches/';
+  catchesFilePath = path.join(__dirname, '../catches/');
 
 var store_plugin = function(/* options */) {
 
@@ -11,6 +11,7 @@ var store_plugin = function(/* options */) {
   this.add("data:store,operation:getByAngler", filteredByAngler);
   this.add("data:store,operation:getBySpecies", filteredBySpecies);
   this.add("data:store,operation:create", newCatch);
+  this.add("data:store,operation:delete", deleteCatch);
 
   var catches = null,
     seneca = this;
@@ -20,8 +21,7 @@ var store_plugin = function(/* options */) {
   }, init);
 
   function init(msg, respond) {
-    readFiles('.json');
-    // on write of new catch - add to exising cache
+    catches = readFiles('.json');
     // on delete - remove from catches
     // on update/ upsert, edit here then write
     respond();
@@ -29,7 +29,7 @@ var store_plugin = function(/* options */) {
 
   function catchById(msg, respond) {
     if (catches.length == 0)
-      respond({out: `Catch with id ${msg.id} not found`});
+      respond({out: `No catches stored`});
     respond({
       catch  : catches.filter(elem => elem.id == msg.id)[0] || `Catch with id ${msg.id} not found`
     });
@@ -70,25 +70,35 @@ var store_plugin = function(/* options */) {
     newCatch.id = nextId();
     var fileName = `${newCatch.id}.json`;
     writeFile(`${catchesFilePath}${fileName}`, JSON.stringify(newCatch), function() {
-      seneca.log.debug(`file (${fileName}) written OK`);
-      respond(null, {
-        fishes: newCatch/* || throw Error ??????? */
-      });
+      seneca.log.info(`file (${fileName}) written OK`);
+      catches.push(newCatch);
+      respond(null, {fishes: newCatch});
+    });
+  }
+
+  function deleteCatch(msg, respond) {
+    var f = `${catchesFilePath}${msg.id}.json`;
+    fs.unlink(f, function(err) {
+      if (err) {
+        throw 'Failed to delete catch with id ' + msg.id + ' : '  + err;
+      } else {
+        respond(null, {out: `successfully deleted ${f}`});
+      }
     });
   }
 
   function readFiles(ext) {
-    if (!catches)
-      catches = [];
+    var c = [];
     fs.readdirSync(catchesFilePath).forEach(function(f) {
       if (path.extname(f) === ext) {
         try {
-          catches.push(JSON.parse(fs.readFileSync(catchesFilePath + f, 'utf-8')));
+          c.push(JSON.parse(fs.readFileSync(catchesFilePath + f, 'utf-8')));
         } catch (err) {
-          seneca.debug.log(`problem reading file ${f} : ${err}`);
+          seneca.log.error(`problem reading file ${f} : ${err}`);
         }
       }
     });
+    return c;
   }
 
   function writeFile(filePath, data, cb) {
@@ -100,7 +110,9 @@ var store_plugin = function(/* options */) {
   }
 
   function nextId() {
-    var topId = catches.map(elem => elem.id).sort().pop();
+    var topId = catches.map(elem => elem.id).sort((a, b) => {
+      return Number.parseInt(a) - Number.parseInt(b);
+    }).pop();
     return++ topId;
   }
 
