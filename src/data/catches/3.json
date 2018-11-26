@@ -1,11 +1,1 @@
-{
-  "id": 3,
-  "species": "salmon",
-  "weight": "4.25lb",
-  "length": "45cm",
-  "lat": "51.061195",
-  "long": "-1.791777",
-  "photoUrls": [],
-  "angler": "big dave microsoft",
-  "tags": []
-}
+{"id":3,"species":"salmon","weight":"4.25lb","length":"45cm","lat":"51.061195","long":"-1.791777","photoUrls":[],"angler":"big xavi","tags":[]}
