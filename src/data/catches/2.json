@@ -5,7 +5,10 @@
   "length": "56cm",
   "lat": "51.038962",
   "long": "-1.755945",
-  "photoUrls": [],
+  "photoUrls": [
+      "file:///Users/jjobbings/fyb/fish_server/src/images/chub.jpg",
+      "file:///Users/jjobbings/fyb/fish_server/src/images/carp.jpg"
+  ],
   "angler": "jon J",
   "tags": []
 }

@@ -1,7 +1,7 @@
 const fs = require('fs'),
   path = require('path'),
   CatchesFilter = require('./catch-filter'),
-  catchesFilePath = path.join(__dirname, '../catches/');
+  catchesDir = path.join(__dirname, '../catches/');
 
 var store_plugin = function(/* options */) {
 
@@ -70,7 +70,7 @@ var store_plugin = function(/* options */) {
     var newCatch = msg.newCatch;
     newCatch.id = nextId();
     var fileName = `${newCatch.id}.json`;
-    writeFile(`${catchesFilePath}${fileName}`, JSON.stringify(newCatch), function() {
+    writeFile(`${catchesDir}${fileName}`, JSON.stringify(newCatch), function() {
       seneca.log.info(`file (${fileName}) written OK`);
       catches.push(newCatch);
       respond(null, {catches: newCatch});
@@ -78,7 +78,7 @@ var store_plugin = function(/* options */) {
   }
 
   function deleteCatch(msg, respond) {
-    var f = `${catchesFilePath}${msg.id}.json`;
+    var f = `${catchesDir}${msg.id}.json`;
     fs.unlink(f, function(err) {
       if (err) {
         throw 'Failed to delete catch with id ' + msg.id + ' : ' + err;
@@ -119,7 +119,7 @@ var store_plugin = function(/* options */) {
       }
     }
     var fileName = `${updatedCatch.id}.json`;
-    writeFile(`${catchesFilePath}${fileName}`, JSON.stringify(updatedCatch), function() {
+    writeFile(`${catchesDir}${fileName}`, JSON.stringify(updatedCatch), function() {
       seneca.log.info(`file (${fileName}) updated OK`);
       catches.push(updatedCatch);
       respond(null, {catches: updatedCatch});
@@ -128,10 +128,10 @@ var store_plugin = function(/* options */) {
 
   function readFiles(ext) {
     var c = [];
-    fs.readdirSync(catchesFilePath).forEach(function(f) {
+    fs.readdirSync(catchesDir).forEach(function(f) {
       if (path.extname(f) === ext) {
         try {
-          c.push(JSON.parse(fs.readFileSync(catchesFilePath + f, 'utf-8')));
+          c.push(JSON.parse(fs.readFileSync(catchesDir + f, 'utf-8')));
         } catch (err) {
           seneca.log.error(`problem reading file ${f} : ${err}`);
         }
