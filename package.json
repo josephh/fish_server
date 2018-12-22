@@ -15,13 +15,19 @@
   "author": "josephh@rocketmail.com",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "express": "^4.16.4",
+    "chairo": "^4.0.0",
+    "hapi": "^17.8.1",
+    "inert": "^5.1.2",
+    "rif": "0.3.0",
     "seneca": "^3.7.0",
-    "seneca-web": "^2.2.1",
-    "seneca-web-adapter-express": "^1.1.2"
+    "seneca-balance-client": "0.6.0",
+    "seneca-demo-logger": "^0.2.0",
+    "seneca-mesh": "^0.12.0",
+    "seneca-promise": "^1.1.2",
+    "wo": "1.0.0"
   },
   "devDependencies": {
-    "eslint": "^5.6.1"
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.10.0"
   }
 }
