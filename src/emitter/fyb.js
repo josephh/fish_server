@@ -20,8 +20,8 @@ seneca.act({
     'pike', 'roach'
   ],
   location: {
-    long: "51.055551",
-    lat: "-1.769147",
+    longitude: "51.055551",
+    latitude: "-1.769147",
     radius: 10
   }
 }, console.log);
@@ -44,8 +44,8 @@ seneca.act({
   species: 'dace',
   weight: '0.7lb',
   length: '12cm',
-  lat: 51.055551,
-  long: -1.769147,
+  latitude: 51.055551,
+  longitude: -1.769147,
   photoUrls: [],
   angler: 'Jon J'
 }, console.log);

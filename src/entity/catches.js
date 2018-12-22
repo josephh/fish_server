@@ -71,8 +71,8 @@ function catches_plugin(/* options */) { // the function identifier/name is the 
           species: msg.species,
           weight: msg.weight,
           length: msg.length,
-          lat: msg.lat,
-          long: msg.long,
+          latitude: msg.latitude,
+          longitude: msg.longitude,
           photoUrls: msg.photoUrls,
           angler: msg.angler,
           tags: msg.tags

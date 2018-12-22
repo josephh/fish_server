@@ -21,6 +21,11 @@ const start = async () => {
       route: [
         {
           path: '/api/ping'
+        }, {
+          path: '/api/catches'
+        }, {
+          path: '/api/catches/{catchId}',
+          method: 'put'
         }
       ],
       sneeze: {
@@ -41,7 +46,7 @@ const start = async () => {
     });
 
     // you can await other actions!
-    seneca.addAsync('cmd:test', async (msg) => {
+    seneca.addAsync('cmd:test', async () => {
       return ({out: 'here you go'});
     });
 
@@ -61,6 +66,35 @@ const start = async () => {
       });
     });
 
+    server.route({
+      method: 'GET',
+      path: '/api/catches',
+      handler: function() {
+        return seneca.actAsync({entity: 'catches', operation: 'fetchAll'});
+      }
+    });
+
+    server.route({
+      method: 'PUT',
+      path: '/api/catches/{catchId}',
+      handler: function(req) {
+
+        console.log('/api/catches PUT A', req.params, req.payload);
+
+        return seneca.actAsync('entity:catches,operation:update', {
+          id: req.params.catchId,
+          species: req.payload.species,
+          angler: req.payload.angler,
+          weight:req.payload.weight,
+          length:req.payload.length,
+          lat:req.payload.latitude,
+          longitude:req.payload.longitude,
+          photoUrls:req.payload.photoUrls,
+          tags:req.payload.tags
+        });
+      }
+    });
+
     seneca.use('mesh', {
       host: host,
       bases: BASES,
@@ -70,7 +104,7 @@ const start = async () => {
           interval: 1111
         }
       }
-    });
+    }).use('../entity/catches');
 
   });
 

@@ -33,9 +33,26 @@ const init = async () => {
   server.route({
     method: 'GET',
     path: '/api/ping',
+    handler: {
+      wo: {}
+    }
+  });
+
+  server.route({
+    method: 'GET',
     path: '/api/catches',
     handler: {
       wo: {}
+    }
+  });
+
+  server.route({
+    method: 'PUT',
+    path: '/api/catches/{catchId}',
+    handler: {
+      wo: {
+        passThrough: true
+      }
     }
   });
 

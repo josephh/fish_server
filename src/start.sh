@@ -12,5 +12,3 @@ node front/front.js $HOST $BASES $OPTS &
 sleep 1
 node api/api-service.js 0 $HOST $BASES $OPTS &
 sleep 1
-node api/api-catches.js 0 $HOST $BASES $OPTS &
-sleep 1

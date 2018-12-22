@@ -3,8 +3,8 @@
   "species": "roach",
   "weight": "2.5lb",
   "length": "32cm",
-  "lat": "51.055551",
-  "long": "-1.769147",
+  "latitude": "51.055551",
+  "longitude": "-1.769147",
   "photoUrls": [],
   "angler": "jon J",
   "photoUrls": [

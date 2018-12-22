@@ -1,0 +1,2 @@
+curl http://127.0.0.1:3000/api/catches
+curl -X PUT -d species=perch -d "angler=big deborah" http://127.0.0.1:3000/api/catches/3

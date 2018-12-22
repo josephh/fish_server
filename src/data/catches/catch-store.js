@@ -48,7 +48,7 @@ var store_plugin = function(/* options */) {
       ? msg.angler
       : 'none'} `);
     this.log.debug(`Species : ${msg.species}`);
-    this.log.debug(`Location long: ${msg.location.long}; lat: ${msg.location.lat}; radius ${msg.location.radius}`);
+    this.log.debug(`Location longitude: ${msg.location.longitude}; latitude: ${msg.location.latitude}; radius ${msg.location.radius}`);
     respond({
       catches: CatchesFilter.and(msg.angler, msg.species, catches) || `No AND filtered catches found`
     });
@@ -102,11 +102,11 @@ var store_plugin = function(/* options */) {
       if (existingCatch.hasOwnProperty('length') && existingCatch.length) {
         updatedCatch.length = existingCatch.length;
       }
-      if (existingCatch.hasOwnProperty('lat') && existingCatch.lat) {
-        updatedCatch.lat = existingCatch.lat;
+      if (existingCatch.hasOwnProperty('latitude') && existingCatch.latitude) {
+        updatedCatch.latitude = existingCatch.latitude;
       }
-      if (existingCatch.hasOwnProperty('long') && existingCatch.long) {
-        updatedCatch.long = existingCatch.long;
+      if (existingCatch.hasOwnProperty('longitude') && existingCatch.longitude) {
+        updatedCatch.longitude = existingCatch.longitude;
       }
       if (existingCatch.hasOwnProperty('angler') && existingCatch.angler) {
         updatedCatch.angler = existingCatch.angler;

@@ -3,8 +3,8 @@
   "species": "pike",
   "weight": "18lb",
   "length": "56cm",
-  "lat": "51.038962",
-  "long": "-1.755945",
+  "latitude": "51.038962",
+  "longitude": "-1.755945",
   "photoUrls": [
       "file:///Users/jjobbings/fyb/fish_server/src/images/chub.jpg",
       "file:///Users/jjobbings/fyb/fish_server/src/images/carp.jpg"
