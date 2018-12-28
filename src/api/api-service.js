@@ -77,21 +77,32 @@ const start = async () => {
     server.route({
       method: 'PUT',
       path: '/api/catches/{catchId}',
-      handler: function(req) {
+      handler: function(req, h) {
 
-        console.log('/api/catches PUT A', req.params, req.payload);
+        seneca.log.debug('/api/catches PUT', req.params, req.payload);
 
-        return seneca.actAsync('entity:catches,operation:update', {
+        var updated = {
           id: req.params.catchId,
           species: req.payload.species,
           angler: req.payload.angler,
-          weight:req.payload.weight,
-          length:req.payload.length,
-          lat:req.payload.latitude,
-          longitude:req.payload.longitude,
-          photoUrls:req.payload.photoUrls,
-          tags:req.payload.tags
+          weight: req.payload.weight,
+          length: req.payload.length,
+          lat: req.payload.latitude,
+          longitude: req.payload.longitude,
+          photoUrls: req.payload.photoUrls,
+          tags: req.payload.tags
+        };
+
+        return seneca.actAsync('entity:catches,operation:update', updated).then(function(result) {
+          if (result.error && result.error.includes("not found")) {
+            return h.response(result).code(404).type('application/json');
+          } else {
+            return h.response(result).code(200).type('application/json');
+          }
+        }, function(err) {
+          seneca.log.error('Message {entity:catches,operation:update} for catchId ' + req.params.catchId + ' Details: ' + err);
         });
+
       }
     });
 

@@ -117,13 +117,15 @@ var store_plugin = function(/* options */) {
       if (existingCatch.hasOwnProperty('tags') && existingCatch.tags) {
         updatedCatch.tags = existingCatch.tags;
       }
+      var fileName = `${updatedCatch.id}.json`;
+      writeFile(`${catchesDir}${fileName}`, JSON.stringify(updatedCatch), function() {
+        seneca.log.info(`file (${fileName}) updated OK`);
+        catches.push(updatedCatch);
+        respond(null, {catches: updatedCatch});
+      });
+    } else {
+      respond({"error": "not found (catch with id " + existingCatch.id + ")"});
     }
-    var fileName = `${updatedCatch.id}.json`;
-    writeFile(`${catchesDir}${fileName}`, JSON.stringify(updatedCatch), function() {
-      seneca.log.info(`file (${fileName}) updated OK`);
-      catches.push(updatedCatch);
-      respond(null, {catches: updatedCatch});
-    });
   }
 
   function readFiles(ext) {
