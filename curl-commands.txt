@@ -1,2 +1,15 @@
-curl http://127.0.0.1:3000/api/catches
+# POST/catches
+curl -X POST -d species=tench \
+  -d weight=2.2lb \
+  -d length=12cm \
+  -d latitude=51.055551 \
+  -d longitude=-1.769147 \
+  -d angler=xavi \
+  -d 'photoUrls[]=file:///Users/jjobbings/fyb/fish_server/src/images/bream.jpg&photoUrls=file:///Users/jjobbings/fyb/fish_server/src/images/abc.jpg' \
+  http://127.0.0.1:3000/api/catches
+
+# PUT /catches
 curl -X PUT -d species=perch -d "angler=big deborah" http://127.0.0.1:3000/api/catches/3
+
+# GET /catches
+curl http://127.0.0.1:3000/api/catches

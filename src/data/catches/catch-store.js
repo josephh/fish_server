@@ -68,13 +68,22 @@ var store_plugin = function(/* options */) {
 
   function newCatch(msg, respond) {
     var newCatch = msg.newCatch;
-    newCatch.id = nextId();
-    var fileName = `${newCatch.id}.json`;
-    writeFile(`${catchesDir}${fileName}`, JSON.stringify(newCatch), function() {
-      seneca.log.info(`file (${fileName}) written OK`);
-      catches.push(newCatch);
-      respond(null, {catches: newCatch});
-    });
+
+    var missingFields = [];
+    if (!newCatch.hasOwnProperty('angler') || !newCatch.angler)
+      missingFields.push('angler');
+
+    if (missingFields.length > 0) {
+      respond({error: `missing fields: ${missingFields}`});
+    } else {
+      newCatch.id = nextId();
+      var fileName = `${newCatch.id}.json`;
+      writeFile(`${catchesDir}${fileName}`, JSON.stringify(newCatch), function() {
+        seneca.log.info(`file (${fileName}) written OK`);
+        catches.push(newCatch);
+        respond(null, {catches: newCatch});
+      });
+    }
   }
 
   function deleteCatch(msg, respond) {
@@ -90,7 +99,7 @@ var store_plugin = function(/* options */) {
 
   function amendCatch(msg, respond) {
     var existingCatch = msg.args,
-          updatedCatch = catches.filter(elem => elem.id == existingCatch.id)[0];
+      updatedCatch = catches.filter(elem => elem.id == existingCatch.id)[0];
     if (updatedCatch) {
       // overwrite any fields found in the input over the existing record
       if (existingCatch.hasOwnProperty('species') && existingCatch.species) {
@@ -124,7 +133,9 @@ var store_plugin = function(/* options */) {
         respond(null, {catches: updatedCatch});
       });
     } else {
-      respond({"error": "not found (catch with id " + existingCatch.id + ")"});
+      respond({
+        "error": "not found (catch with id " + existingCatch.id + ")"
+      });
     }
   }
 

@@ -56,30 +56,24 @@ function catches_plugin(/* options */) { // the function identifier/name is the 
     }
   });
 
-  this.add("entity:catches,operation:add", (msg, respond) => {
-    var missingFields = [];
-    if (!msg.hasOwnProperty('angler') || !msg.angler)
-      missingFields.push('angler');
+  this.add("entity:catches,operation:add", (req, respond) => {
+    var payload = {
+      species: req.payload.species,
+      angler: req.payload.angler,
+      weight: req.payload.weight,
+      length: req.payload.length,
+      lat: req.payload.latitude,
+      longitude: req.payload.longitude,
+      photoUrls: req.payload.photoUrls,
+      tags: req.payload.tags
+    };
 
-    if (missingFields.length > 0) {
-      respond({error: `missing fields: ${missingFields}`});
-    } else {
-      var args = {
-        data: 'store',
-        operation: 'create',
-        newCatch: {
-          species: msg.species,
-          weight: msg.weight,
-          length: msg.length,
-          latitude: msg.latitude,
-          longitude: msg.longitude,
-          photoUrls: msg.photoUrls,
-          angler: msg.angler,
-          tags: msg.tags
-        }
-      };
-      this.act(args, respond);
-    }
+    var args = {
+      data: 'store',
+      operation: 'create',
+      newCatch: payload
+    };
+    this.act(args, respond);
   });
 
   this.add("entity:catches,operation:remove", (msg, respond) => {
@@ -90,11 +84,23 @@ function catches_plugin(/* options */) { // the function identifier/name is the 
     }
   });
 
-  this.add("entity:catches,operation:update", (msg, respond) => {
+  this.add("entity:catches,operation:update", (req, respond) => {
+    var toUpdate = {
+      id: req.params.catchId,
+      species: req.payload.species,
+      angler: req.payload.angler,
+      weight: req.payload.weight,
+      length: req.payload.length,
+      lat: req.payload.latitude,
+      longitude: req.payload.longitude,
+      photoUrls: req.payload.photoUrls,
+      tags: req.payload.tags
+    };
+
     var args = {
       data: 'store',
       operation: 'amend',
-      args: msg
+      args: toUpdate
     };
     this.act(args, respond);
   });

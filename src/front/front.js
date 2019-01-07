@@ -56,14 +56,23 @@ const init = async () => {
     }
   });
 
-  await server.start();
-  console.log(`Server running at: ${server.info.uri}`);
+  server.route({
+    method: 'POST', path: '/api/catches', handler:
+    {
+       wo: {
+         passThrough: true
+       }
+    }
+  });
+
+await server.start();
+console.log(`Server running at: ${server.info.uri}`);
 };
 
 process.on('unhandledRejection', (err) => {
 
-  console.log(err);
-  process.exit(1);
+console.log(err);
+process.exit(1);
 });
 
 init();
