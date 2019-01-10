@@ -57,6 +57,7 @@ function catches_plugin(/* options */) { // the function identifier/name is the 
   });
 
   this.add("entity:catches,operation:add", (req, respond) => {
+
     var payload = {
       species: req.payload.species,
       angler: req.payload.angler,
@@ -64,7 +65,7 @@ function catches_plugin(/* options */) { // the function identifier/name is the 
       length: req.payload.length,
       lat: req.payload.latitude,
       longitude: req.payload.longitude,
-      photoUrls: req.payload.photoUrls,
+      photoUrls: req.payload.photoUrls ? req.payload.photoUrls.split(',') : [],
       tags: req.payload.tags
     };
 

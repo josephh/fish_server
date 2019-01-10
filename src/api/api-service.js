@@ -26,6 +26,9 @@ const start = async () => {
         }, {
           path: '/api/catches/{catchId}',
           method: 'put'
+        }, {
+          path: '/api/catches',
+          method: 'post'
         }
       ],
       sneeze: {

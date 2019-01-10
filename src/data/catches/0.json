@@ -9,8 +9,5 @@
   "photoUrls": [
     "file:///Users/jjobbings/fyb/fish_server/src/images/bream.jpg"
   ],
-  "tags": [{
-    "id": "0",
-    "name": "string"
-  }]
+  "tags": []
 }

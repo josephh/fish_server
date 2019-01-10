@@ -5,7 +5,7 @@ curl -X POST -d species=tench \
   -d latitude=51.055551 \
   -d longitude=-1.769147 \
   -d angler=xavi \
-  -d 'photoUrls[]=file:///Users/jjobbings/fyb/fish_server/src/images/bream.jpg&photoUrls=file:///Users/jjobbings/fyb/fish_server/src/images/abc.jpg' \
+  -d 'photoUrls=file:///Users/jjobbings/fyb/fish_server/src/images/bream.jpg,file:///Users/jjobbings/fyb/fish_server/src/images/abc.jpg,file:///Users/jjobbings/fyb/fish_server/src/images/def.jpg' \
   http://127.0.0.1:3000/api/catches
 
 # PUT /catches
