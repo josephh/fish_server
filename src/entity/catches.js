@@ -1,10 +1,12 @@
-function catches_plugin(/* options */) { // the function identifier/name is the equivalent of returning a string value from this function
+function catches_plugin( /* options */ ) { // the function identifier/name is the equivalent of returning a string value from this function
 
   this.use('../data/catches/catch-store');
 
   this.add('entity:catches,operation:fetch', (msg, respond) => {
     if (!msg.hasOwnProperty('id') || !msg.id) {
-      respond({error: 'no id parameter in request'});
+      respond({
+        error: 'no id parameter in request'
+      });
     } else {
       this.act(`data:store,operation:get,id:${msg.id}`, respond);
     }
@@ -39,7 +41,9 @@ function catches_plugin(/* options */) { // the function identifier/name is the 
       args.species = msg.species;
       this.act(args, respond);
     } else {
-      respond({error: 'no species parameter in request'});
+      respond({
+        error: 'no species parameter in request'
+      });
     }
   });
 
@@ -52,7 +56,9 @@ function catches_plugin(/* options */) { // the function identifier/name is the 
       args.angler = msg.angler;
       this.act(args, respond);
     } else {
-      respond({error: 'no angler parameter in request'});
+      respond({
+        error: 'no angler parameter in request'
+      });
     }
   });
 
@@ -77,12 +83,13 @@ function catches_plugin(/* options */) { // the function identifier/name is the 
     this.act(args, respond);
   });
 
-  this.add("entity:catches,operation:remove", (msg, respond) => {
-    if (!msg.hasOwnProperty('id') || !msg.id) {
-      respond({error: 'no id parameter in request'});
-    } else {
-      this.act('data:store,operation:delete,id:' + msg.id, respond);
-    }
+  this.add("entity:catches,operation:remove", (req, respond) => {
+    var args = {
+      data: 'store',
+      operation: 'delete',
+      id: req.params.catchId // routing will not reach this point if there is no id slug in the URL
+    };
+    this.act(args, respond);
   });
 
   this.add("entity:catches,operation:update", (req, respond) => {

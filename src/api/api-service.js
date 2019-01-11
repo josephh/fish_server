@@ -10,7 +10,12 @@ const seneca = require('seneca')().use('seneca-promise');
 const Rif = require('rif')();
 const host = Rif(HOST) || HOST;
 
-const server = new Hapi.Server({host: host, port: PORT});
+const server = new Hapi.Server({
+  host: host,
+  port: PORT
+});
+
+const GENERAL_SERVER_ERROR = 'Problem server side in FYB microservices';
 
 const start = async () => {
 
@@ -18,19 +23,20 @@ const start = async () => {
     plugin: require('wo'),
     options: {
       bases: BASES,
-      route: [
-        {
-          path: '/api/ping'
-        }, {
-          path: '/api/catches'
-        }, {
-          path: '/api/catches/{catchId}',
-          method: 'put'
-        }, {
-          path: '/api/catches',
-          method: 'post'
-        }
-      ],
+      route: [{
+        path: '/api/ping'
+      }, {
+        path: '/api/catches'
+      }, {
+        path: '/api/catches/{catchId}',
+        method: 'put'
+      }, {
+        path: '/api/catches',
+        method: 'post'
+      }, {
+        path: '/api/catches/{catchId}',
+        method: 'delete'
+      }],
       sneeze: {
         host: host,
         silent: JSON.parse(SILENT),
@@ -50,7 +56,9 @@ const start = async () => {
 
     // you can await other actions!
     seneca.addAsync('cmd:test', async () => {
-      return ({out: 'here you go'});
+      return ({
+        out: 'here you go'
+      });
     });
 
     server.route({
@@ -73,7 +81,10 @@ const start = async () => {
       method: 'GET',
       path: '/api/catches',
       handler: function() {
-        return seneca.actAsync({entity: 'catches', operation: 'fetchAll'});
+        return seneca.actAsync({
+          entity: 'catches',
+          operation: 'fetchAll'
+        });
       }
     });
 
@@ -114,8 +125,26 @@ const start = async () => {
           }
         }, function(err) {
           seneca.log.error('Details: ' + err);
+          return h.response(GENERAL_SERVER_ERROR).code(500);
         });
 
+      }
+    });
+
+    server.route({
+      method: 'DELETE',
+      path: '/api/catches/{catchId}',
+      handler: function(req, h) {
+        return seneca.actAsync('entity:catches,operation:remove', req).then(function(result) {
+          if (result.error && result.error.includes("not found")) {
+            return h.response(result).code(404).type('application/json');
+          } else {
+            return h.response(result).code(200).type('application/json');
+          }
+        }, function(err) {
+          seneca.log.error('Details: ' + err);
+          return h.response(GENERAL_SERVER_ERROR).code(500);
+        });
       }
     });
 

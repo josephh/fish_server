@@ -3,7 +3,7 @@ const fs = require('fs'),
   CatchesFilter = require('./catch-filter'),
   catchesDir = path.join(__dirname, '../catches/');
 
-var store_plugin = function(/* options */) {
+var store_plugin = function( /* options */ ) {
 
   this.add("data:store,operation:get", catchById);
   this.add("data:store,operation:getAll", allCatches);
@@ -30,9 +30,11 @@ var store_plugin = function(/* options */) {
 
   function catchById(msg, respond) {
     if (catches.length == 0)
-      respond({out: `No catches stored`});
+      respond({
+        out: `No catches stored`
+      });
     respond({
-      catch  : catches.filter(elem => elem.id == msg.id)[0] || `Catch with id ${msg.id} not found`
+      catch: catches.filter(elem => elem.id == msg.id)[0] || `Catch with id ${msg.id} not found`
     });
   }
 
@@ -74,14 +76,18 @@ var store_plugin = function(/* options */) {
       missingFields.push('angler');
 
     if (missingFields.length > 0) {
-      respond({error: `missing fields: ${missingFields}`});
+      respond({
+        error: `missing fields: ${missingFields}`
+      });
     } else {
       newCatch.id = nextId();
       var fileName = `${newCatch.id}.json`;
       writeFile(`${catchesDir}${fileName}`, JSON.stringify(newCatch), function() {
         seneca.log.info(`file (${fileName}) written OK`);
         catches.push(newCatch);
-        respond(null, {catches: newCatch});
+        respond(null, {
+          catches: newCatch
+        });
       });
     }
   }
@@ -90,9 +96,18 @@ var store_plugin = function(/* options */) {
     var f = `${catchesDir}${msg.id}.json`;
     fs.unlink(f, function(err) {
       if (err) {
-        throw 'Failed to delete catch with id ' + msg.id + ' : ' + err;
+        respond({
+          error: `Failed to delete catch with id ${msg.id} : ${err}`
+        });
       } else {
-        respond(null, {out: `successfully deleted ${f}`});
+        // get the catches index for the item to remove
+        var i = catches.findIndex(elem => {
+          return elem.id && elem.id == msg.id;
+        });
+        catches.splice(i, 1); // remove from array
+        respond(null, {
+          out: `Successfully deleted catch with id ${msg.id}`
+        });
       }
     });
   }
@@ -130,7 +145,9 @@ var store_plugin = function(/* options */) {
       writeFile(`${catchesDir}${fileName}`, JSON.stringify(updatedCatch), function() {
         seneca.log.info(`file (${fileName}) updated OK`);
         catches.push(updatedCatch);
-        respond(null, {catches: updatedCatch});
+        respond(null, {
+          catches: updatedCatch
+        });
       });
     } else {
       respond({
@@ -165,7 +182,7 @@ var store_plugin = function(/* options */) {
     var topId = catches.map(elem => elem.id).sort((a, b) => {
       return Number.parseInt(a) - Number.parseInt(b);
     }).pop();
-    return++ topId;
+    return ++topId;
   }
 
 };

@@ -65,6 +65,15 @@ const init = async () => {
     }
   });
 
+  server.route({
+    method: 'DELETE', path: '/api/catches/{catchId}', handler:
+    {
+       wo: {
+         passThrough: true
+       }
+    }
+  });
+
 await server.start();
 console.log(`Server running at: ${server.info.uri}`);
 };
