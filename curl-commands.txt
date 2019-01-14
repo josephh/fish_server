@@ -8,11 +8,19 @@ curl -X POST -d species=tench \
   -d 'photoUrls=file:///Users/jjobbings/fyb/fish_server/src/images/bream.jpg,file:///Users/jjobbings/fyb/fish_server/src/images/abc.jpg,file:///Users/jjobbings/fyb/fish_server/src/images/def.jpg' \
   http://127.0.0.1:3000/api/catches
 
-# PUT /catches/${catchId}
+# PUT /catches/{catchId}
 curl -X PUT -d species=perch -d "angler=big deborah" http://127.0.0.1:3000/api/catches/3
 
 # GET /catches
 curl http://127.0.0.1:3000/api/catches
 
+# GET /catches/{catchId}
+curl http://127.0.0.1:3000/api/catches/1
+
+# GET filtered by angler
+curl 'http://127.0.0.1:3000/api/catches?angler=jon+J&species=pike'
+curl 'http://127.0.0.1:3000/api/catches?angler=jon%20J&species=pike,roach,chub'
+curl 'http://127.0.0.1:3000/api/catches?species=pike,brown+trout,red%20snapper'
+
 # DELETE /catches/${catchId}
-curl -X DELETE http://127.0.0.1:3000/api/catches/4
+curl -X DELETE http://127.0.0.1:3000/api/catches/9

@@ -8,8 +8,6 @@ var store_plugin = function( /* options */ ) {
   this.add("data:store,operation:get", catchById);
   this.add("data:store,operation:getAll", allCatches);
   this.add("data:store,operation:getBy", filtered);
-  this.add("data:store,operation:getByAngler", filteredByAngler);
-  this.add("data:store,operation:getBySpecies", filteredBySpecies);
   this.add("data:store,operation:create", newCatch);
   this.add("data:store,operation:delete", deleteCatch);
   this.add("data:store,operation:amend", amendCatch);

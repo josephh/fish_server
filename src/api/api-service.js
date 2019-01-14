@@ -26,7 +26,7 @@ const start = async () => {
       route: [{
         path: '/api/ping'
       }, {
-        path: '/api/catches'
+        path: '/api/catches/{catchId?}'
       }, {
         path: '/api/catches/{catchId}',
         method: 'put'
@@ -79,8 +79,26 @@ const start = async () => {
 
     server.route({
       method: 'GET',
-      path: '/api/catches',
-      handler: function() {
+      path: '/api/catches/{catchId?}',
+      handler: function(request) {
+        // api/catches/123 (ignore request parameters)
+        if (request.params.catchId) {
+          return seneca.actAsync({
+            entity: 'catches',
+            operation: 'fetch',
+            id: request.params.catchId
+          });
+        }
+        // api/catches?angler=joe&species=pike
+        if (request.query && request.query.length > 0) {
+            return {out: "api/catches?angler=joe&species=pike called"};
+          // return seneca.actAsync({
+          //   entity: 'catches',
+          //   operation: 'fetchBy',
+          //   params: Object.getOwnPropertyNames(request.query)
+          // });
+        }
+        // api/catches
         return seneca.actAsync({
           entity: 'catches',
           operation: 'fetchAll'

@@ -40,7 +40,7 @@ const init = async () => {
 
   server.route({
     method: 'GET',
-    path: '/api/catches',
+    path: '/api/catches/{catchId?}',
     handler: {
       wo: {}
     }

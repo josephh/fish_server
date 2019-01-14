@@ -32,36 +32,6 @@ function catches_plugin( /* options */ ) { // the function identifier/name is th
     this.act(args, respond);
   });
 
-  this.add("entity:catches,operation:fetchBySpecies", (msg, respond) => {
-    var args = {
-      data: 'store',
-      operation: 'getBySpecies'
-    };
-    if (msg.hasOwnProperty('species')) {
-      args.species = msg.species;
-      this.act(args, respond);
-    } else {
-      respond({
-        error: 'no species parameter in request'
-      });
-    }
-  });
-
-  this.add("entity:catches,operation:fetchByAngler", (msg, respond) => {
-    var args = {
-      data: 'store',
-      operation: 'getByAngler'
-    };
-    if (msg.hasOwnProperty('angler')) {
-      args.angler = msg.angler;
-      this.act(args, respond);
-    } else {
-      respond({
-        error: 'no angler parameter in request'
-      });
-    }
-  });
-
   this.add("entity:catches,operation:add", (req, respond) => {
 
     var payload = {
