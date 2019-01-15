@@ -21,13 +21,13 @@ function catches_plugin( /* options */ ) { // the function identifier/name is th
       data: 'store',
       operation: 'getBy'
     };
-    if (msg.hasOwnProperty('angler'))
-      args.angler = msg.angler;
-    if (msg.hasOwnProperty('species'))
-      args.species = msg.species;
-    if (msg.hasOwnProperty('location'))
-      args.location = msg.location;
-
+    var paramNames = Object.getOwnPropertyNames(msg.params);
+    if (paramNames.includes('angler'))
+      args.angler = msg.params.angler;
+    if (paramNames.includes('species'))
+      args.species = msg.params.species;
+    if (paramNames.includes('location'))
+      args.location = msg.params.location;
     // jsonic expects commas and square brackets to be in quotes...
     this.act(args, respond);
   });

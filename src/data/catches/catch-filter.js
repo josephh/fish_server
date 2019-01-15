@@ -1,9 +1,9 @@
 'strict mode';
 
 // angler filter function
-var includeAngler = function(includedAngler) {
+var includeAnglers = function(includedAnglers) {
   return function({angler}) {
-    return angler.toLowerCase() === includedAngler.toLowerCase();
+    return includedAnglers.includes(angler);
   };
 };
 
@@ -24,10 +24,12 @@ var and = function(...funcs) {
   };
 };
 
-module.exports.and = function(angler, speciesArray, catchesArray) {
-  // includeAngler 'closure'
-  var anglerFilter = includeAngler(angler),
-    speciesFilter = includeSpecies(speciesArray.map(el => el.toLowerCase()));
+module.exports.and = function(anglerArray, speciesArray, catchesArray) {
+  // 'closures'
+  if(!anglerArray) anglerArray = []
+  if(!speciesArray) speciesArray = []
+  var anglerFilter = includeAnglers(anglerArray),
+    speciesFilter = includeSpecies(speciesArray);
   return catchesArray.filter(and(anglerFilter, speciesFilter));
 };
 

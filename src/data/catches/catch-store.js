@@ -48,9 +48,9 @@ var store_plugin = function( /* options */ ) {
       ? msg.angler
       : 'none'} `);
     this.log.debug(`Species : ${msg.species}`);
-    this.log.debug(`Location longitude: ${msg.location.longitude}; latitude: ${msg.location.latitude}; radius ${msg.location.radius}`);
+    // this.log.debug(`Location longitude: ${msg.location.longitude}; latitude: ${msg.location.latitude}; radius ${msg.location.radius}`);
     respond({
-      catches: CatchesFilter.and(msg.angler, msg.species, catches) || `No AND filtered catches found`
+      catches: CatchesFilter.and(msg.angler ? msg.angler.split(',') : [], msg.species ? msg.species.split(',') : [], catches) || `No AND filtered catches found`
     });
   }
 
