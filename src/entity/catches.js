@@ -17,23 +17,17 @@ function catches_plugin( /* options */ ) { // the function identifier/name is th
   });
 
   this.add('entity:catches,operation:fetchBy', (msg, respond) => {
-    var args = {
-      data: 'store',
-      operation: 'getBy'
-    };
-    if (msg.hasOwnProperty('angler'))
-      args.angler = msg.angler;
-    if (msg.hasOwnProperty('species'))
-      args.species = msg.species;
-    if (msg.hasOwnProperty('location'))
-      args.location = msg.location;
-
+    var filters = msg.query || {};
+      var args = {
+        data: 'store',
+        operation: 'getBy',
+        filters: filters
+      };
     // jsonic expects commas and square brackets to be in quotes...
     this.act(args, respond);
   });
 
   this.add("entity:catches,operation:add", (req, respond) => {
-
     var payload = {
       species: req.payload.species,
       angler: req.payload.angler,
@@ -44,7 +38,6 @@ function catches_plugin( /* options */ ) { // the function identifier/name is th
       photoUrls: req.payload.photoUrls ? req.payload.photoUrls.split(',') : [],
       tags: req.payload.tags
     };
-
     var args = {
       data: 'store',
       operation: 'create',

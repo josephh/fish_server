@@ -1,15 +1,19 @@
 'strict mode';
 
 // angler filter function
-var includeAngler = function(includedAngler) {
-  return function({angler}) {
-    return angler.toLowerCase() === includedAngler.toLowerCase();
+var includeAnglers = function(includedAnglers) {
+  return function({
+    angler
+  }) {
+    return includedAnglers.includes(angler);
   };
 };
 
 // species filter function
 var includeSpecies = function(includedSpecies) {
-  return function({species}) {
+  return function({
+    species
+  }) {
     return includedSpecies.includes(species);
   };
 };
@@ -24,25 +28,19 @@ var and = function(...funcs) {
   };
 };
 
-module.exports.and = function(angler, speciesArray, catchesArray) {
+module.exports.and = function(anglers, speciesArray, catchesArray) {
   // includeAngler 'closure'
-  var anglerFilter = includeAngler(angler),
+  var anglersFilter = includeAnglers(anglers.map(el => el.toLowerCase())),
     speciesFilter = includeSpecies(speciesArray.map(el => el.toLowerCase()));
-  return catchesArray.filter(and(anglerFilter, speciesFilter));
+  return catchesArray.filter(and(anglersFilter, speciesFilter));
 };
 
-module.exports.single = function(fieldName, val, catchesArray) {
-  return catchesArray.filter(function(elem) {
-    return elem[fieldName] === val;
-  });
-};
-
-module.exports.multi = function(fieldName, valsArray, catchesArray) {
+module.exports.filter = function(fieldName, valsArray, catchesArray) {
   return catchesArray.filter(function(elem) {
     /**
-         * make use of Array.filter(...)'s second argument: 'thisArg'.
-         * "Value to use as this when executing callback."
-         */
-    return this.indexOf(elem[fieldName]) > - 1;
+     * make use of Array.filter(...)'s second argument: 'thisArg'.
+     * "Value to use as this when executing callback."
+     */
+    return this.indexOf(elem[fieldName]) > -1;
   }, valsArray);
 };

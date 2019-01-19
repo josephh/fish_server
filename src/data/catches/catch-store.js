@@ -21,8 +21,6 @@ var store_plugin = function( /* options */ ) {
 
   function init(msg, respond) {
     catches = readFiles('.json');
-    // on delete - remove from catches
-    // on update/ upsert, edit here then write
     respond();
   }
 
@@ -43,26 +41,27 @@ var store_plugin = function( /* options */ ) {
   }
 
   function filtered(msg, respond) {
-    this.log.debug(
-      `Anglers : ${msg.angler
-      ? msg.angler
-      : 'none'} `);
-    this.log.debug(`Species : ${msg.species}`);
-    this.log.debug(`Location longitude: ${msg.location.longitude}; latitude: ${msg.location.latitude}; radius ${msg.location.radius}`);
+    var filters = msg.filters || {};
+    this.log.info(
+      `Anglers : ${filters.anglers
+      ? filters.anglers
+      : 'none'}`);
+    this.log.info(`Species : ${filters.species ? filters.species : 'none'}`);
+    if (!filters.location) {
+      this.log.info(`Location : none`);
+    } else {
+      this.log.info(`Location longitude: ${filters.location.longitude ? filters.location.longitude : 'no longitude ' }; latitude: ${filters.location.latitude ? msg.location.latitude  : 'no latitude'}`);
+    }
+    var out = `No filtered catches found`;
+    if (filters.anglers && filters.species) {
+      out = CatchesFilter.and(filters.anglers.split(','), filters.species.split(','), catches) || `No filtered catches found`;
+    } else {
+      if (filters.anglers) out = CatchesFilter.filter('angler', filters.anglers.split(','), catches);
+      if (filters.species) out = CatchesFilter.filter('species', filters.species.split(','), catches);
+      // TODO location object parameters ? if (msg.location) {...}
+    }
     respond({
-      catches: CatchesFilter.and(msg.angler, msg.species, catches) || `No AND filtered catches found`
-    });
-  }
-
-  function filteredByAngler(msg, respond) {
-    respond({
-      catches: CatchesFilter.single('angler', msg.angler, catches) || `No angler filtered catches found`
-    });
-  }
-
-  function filteredBySpecies(msg, respond) {
-    respond({
-      catches: CatchesFilter.multi('species', msg.species, catches) || `No species filtered catches found`
+      catches: out
     });
   }
 
@@ -142,7 +141,11 @@ var store_plugin = function( /* options */ ) {
       var fileName = `${updatedCatch.id}.json`;
       writeFile(`${catchesDir}${fileName}`, JSON.stringify(updatedCatch), function() {
         seneca.log.info(`file (${fileName}) updated OK`);
-        catches.push(updatedCatch);
+        // get the catches index for the item to remove
+        var i = catches.findIndex(elem => {
+          return elem.id && elem.id == updatedCatch.id;
+        });
+        catches.splice(i, 1, updatedCatch); // replace in array
         respond(null, {
           catches: updatedCatch
         });

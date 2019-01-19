@@ -89,14 +89,13 @@ const start = async () => {
             id: request.params.catchId
           });
         }
-        // api/catches?angler=joe&species=pike
-        if (request.query && request.query.length > 0) {
-            return {out: "api/catches?angler=joe&species=pike called"};
-          // return seneca.actAsync({
-          //   entity: 'catches',
-          //   operation: 'fetchBy',
-          //   params: Object.getOwnPropertyNames(request.query)
-          // });
+        // api/catches?anglers=joe&species=pike
+        if (request.query && Object.getOwnPropertyNames(request.query).length > 0) {
+          return seneca.actAsync({
+            entity: 'catches',
+            operation: 'fetchBy',
+            query: request.query
+          });
         }
         // api/catches
         return seneca.actAsync({

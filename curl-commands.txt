@@ -18,8 +18,8 @@ curl http://127.0.0.1:3000/api/catches
 curl http://127.0.0.1:3000/api/catches/1
 
 # GET filtered by angler
-curl 'http://127.0.0.1:3000/api/catches?angler=jon+J&species=pike'
-curl 'http://127.0.0.1:3000/api/catches?angler=jon%20J&species=pike,roach,chub'
+curl 'http://127.0.0.1:3000/api/catches?anglers=jon+J&species=pike'
+curl 'http://127.0.0.1:3000/api/catches?anglers=jon%20J&species=pike,roach,chub'
 curl 'http://127.0.0.1:3000/api/catches?species=pike,brown+trout,red%20snapper'
 
 # DELETE /catches/${catchId}
