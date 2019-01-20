@@ -89,12 +89,12 @@ const start = async () => {
             id: request.params.catchId
           });
         }
-        // api/catches?anglers=joe&species=pike
+        // api/catches?angler=joe&species=pike
         if (request.query && Object.getOwnPropertyNames(request.query).length > 0) {
           return seneca.actAsync({
             entity: 'catches',
             operation: 'fetchBy',
-            query: request.query
+            params: request.query
           });
         }
         // api/catches
