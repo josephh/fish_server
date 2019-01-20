@@ -27,16 +27,16 @@ function catches_plugin( /* options */ ) { // the function identifier/name is th
     this.act(args, respond);
   });
 
-  this.add("entity:catches,operation:add", (req, respond) => {
+  this.add("entity:catches,operation:add", (msg, respond) => {
     var payload = {
-      species: req.payload.species,
-      angler: req.payload.angler,
-      weight: req.payload.weight,
-      length: req.payload.length,
-      lat: req.payload.latitude,
-      longitude: req.payload.longitude,
-      photoUrls: req.payload.photoUrls ? req.payload.photoUrls.split(',') : [],
-      tags: req.payload.tags
+      species: msg.payload.species,
+      angler: msg.payload.angler,
+      weight: msg.payload.weight,
+      length: msg.payload.length,
+      lat: msg.payload.latitude,
+      longitude: msg.payload.longitude,
+      photoUrls: msg.payload.photoUrls ? msg.payload.photoUrls.split(',') : [],
+      tags: msg.payload.tags
     };
     var args = {
       data: 'store',
@@ -46,26 +46,26 @@ function catches_plugin( /* options */ ) { // the function identifier/name is th
     this.act(args, respond);
   });
 
-  this.add("entity:catches,operation:remove", (req, respond) => {
+  this.add("entity:catches,operation:remove", (msg, respond) => {
     var args = {
       data: 'store',
       operation: 'delete',
-      id: req.params.catchId // routing will not reach this point if there is no id slug in the URL
+      id: msg.params.catchId // routing will not reach this point if there is no id slug in the URL
     };
     this.act(args, respond);
   });
 
-  this.add("entity:catches,operation:update", (req, respond) => {
+  this.add("entity:catches,operation:update", (msg, respond) => {
     var toUpdate = {
-      id: req.params.catchId,
-      species: req.payload.species,
-      angler: req.payload.angler,
-      weight: req.payload.weight,
-      length: req.payload.length,
-      lat: req.payload.latitude,
-      longitude: req.payload.longitude,
-      photoUrls: req.payload.photoUrls,
-      tags: req.payload.tags
+      id: msg.params.catchId,
+      species: msg.payload.species,
+      angler: msg.payload.angler,
+      weight: msg.payload.weight,
+      length: msg.payload.length,
+      lat: msg.payload.latitude,
+      longitude: msg.payload.longitude,
+      photoUrls: msg.payload.photoUrls,
+      tags: msg.payload.tags
     };
 
     var args = {

@@ -25,26 +25,33 @@ seneca.act({
 seneca.act({
   entity: 'catches',
   operation: 'add',
-  species: 'dace',
-  weight: '0.7lb',
-  length: '12cm',
-  latitude: 51.055551,
-  longitude: -1.769147,
-  photoUrls: '' ,
-  angler: 'Jon J'
+  payload: {
+    species: 'dace',
+    weight: '0.7lb',
+    length: '12cm',
+    latitude: 51.055551,
+    longitude: -1.769147,
+    photoUrls: '',
+    angler: 'Jon J'
+  }
 }, console.log);
 
 seneca.act({
   entity: 'catches',
   operation: 'remove',
-  id: '19'}
-, console.log);
+  params: {
+    catchId: '5'
+  }
+}, console.log);
 
 seneca.act({
   entity: 'catches',
   operation: 'update',
-  id: '3',
-  species: 'salmon',
-  angler: 'big xavi'
-},
-console.log);
+  params: {
+    catchId: '3',
+  },
+  payload: {
+    species: 'salmon',
+    angler: 'big xavi'
+  }
+}, console.log);
