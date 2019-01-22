@@ -5,7 +5,7 @@ var includeAnglers = function(includedAnglers) {
   return function({
     angler
   }) {
-    return includedAnglers.includes(angler);
+    return includedAnglers.includes(angler.toLowerCase());
   };
 };
 
@@ -14,7 +14,7 @@ var includeSpecies = function(includedSpecies) {
   return function({
     species
   }) {
-    return includedSpecies.includes(species);
+    return includedSpecies.includes(species.toLowerCase());
   };
 };
 
@@ -41,6 +41,6 @@ module.exports.filter = function(fieldName, valsArray, catchesArray) {
      * make use of Array.filter(...)'s second argument: 'thisArg'.
      * "Value to use as this when executing callback."
      */
-    return this.indexOf(elem[fieldName]) > -1;
-  }, valsArray);
+    return this.indexOf(elem[fieldName].toLowerCase()) > -1;
+  }, valsArray.map(el => el.toLowerCase()));
 };

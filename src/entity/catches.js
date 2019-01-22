@@ -17,7 +17,7 @@ function catches_plugin( /* options */ ) { // the function identifier/name is th
   });
 
   this.add('entity:catches,operation:fetchBy', (msg, respond) => {
-    var filters = msg.query || {};
+    var filters = msg.params || {};
       var args = {
         data: 'store',
         operation: 'getBy',

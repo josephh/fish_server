@@ -42,16 +42,6 @@ var store_plugin = function( /* options */ ) {
 
   function filtered(msg, respond) {
     var filters = msg.filters || {};
-    this.log.info(
-      `Anglers : ${filters.anglers
-      ? filters.anglers
-      : 'none'}`);
-    this.log.info(`Species : ${filters.species ? filters.species : 'none'}`);
-    if (!filters.location) {
-      this.log.info(`Location : none`);
-    } else {
-      this.log.info(`Location longitude: ${filters.location.longitude ? filters.location.longitude : 'no longitude ' }; latitude: ${filters.location.latitude ? msg.location.latitude  : 'no latitude'}`);
-    }
     var out = `No filtered catches found`;
     if (filters.anglers && filters.species) {
       out = CatchesFilter.and(filters.anglers.split(','), filters.species.split(','), catches) || `No filtered catches found`;
