@@ -1,8 +1,8 @@
 # Fish API
 
-Service layer implementation using node.js and http://senecajs.org
+Backend FYB Service layer.
 ## In brief
-Node.js and CRUD implementation for 'Catches'.  
+CRUD implementation for 'Catches' written with node.js and http://senecajs.org.  
 Catches typically look something like,
 ```javascript
 {
