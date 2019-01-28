@@ -28,9 +28,9 @@ var and = function(...funcs) {
   };
 };
 
-module.exports.and = function(anglers, speciesArray, catchesArray) {
+module.exports.and = function(anglersArray, speciesArray, catchesArray) {
   // 'closures'
-  var anglersFilter = includeAnglers(anglers.map(el => el.toLowerCase())),
+  var anglersFilter = includeAnglers(anglersArray.map(el => el.toLowerCase())),
     speciesFilter = includeSpecies(speciesArray.map(el => el.toLowerCase()));
   return catchesArray.filter(and(anglersFilter, speciesFilter));
 };
