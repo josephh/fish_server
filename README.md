@@ -21,8 +21,8 @@ Catches typically look something like,
 ```
 ### The Seneca maintainers recommend,
 1. separating action and service definitions
-  1. business logic should go in plugins.  This same plugin should define the set of actions that implement the business functionality.
-  1. the service definition should load the plugin into seneca, then listen for messages on the network    
+  1. business logic should go in plugins.  This same plugin should define the set of actions that implement the business functionality.  Our current code's [catches.js plugin](https://github.com/josephh/fish_server/blob/master/src/entity/catches.js) illustrates this split.  [api-service.js](https://github.com/josephh/fish_server/blob/master/src/api/api-service.js) handles incoming http requests, by calling `seneca.act(...)` with an appropriate action 'pattern'.  For example an http request GET /api/catches/6 results in a seneca action being called, '{ entity: 'catches', operation: 'fetchBy', params }'.  The catches plugin has the knowledge about what to do with that request.
+  1. the service definition should load the plugin into seneca, then listen for messages on the network.
 ### The Source
 1. any folders named "...-example" are for illustration of the coding approach.
 1. the test folder currently has a file in it called "fyb.js" that can be used to exercise the plugin code - the http server code is not required to run this.  Running `node test/fyb.js` should produce output in the form, "...["file (5.json) written OK"]..." and not produce any errors.
