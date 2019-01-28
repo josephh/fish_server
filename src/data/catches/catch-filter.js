@@ -29,7 +29,7 @@ var and = function(...funcs) {
 };
 
 module.exports.and = function(anglers, speciesArray, catchesArray) {
-  // includeAngler 'closure'
+  // 'closures'
   var anglersFilter = includeAnglers(anglers.map(el => el.toLowerCase())),
     speciesFilter = includeSpecies(speciesArray.map(el => el.toLowerCase()));
   return catchesArray.filter(and(anglersFilter, speciesFilter));
