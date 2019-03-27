@@ -10,7 +10,13 @@ const Rif = require('rif');
 var rif = Rif();
 var host = rif(HOST) || HOST;
 
-const server = Hapi.server({port: 3000, host: host});
+const server = Hapi.server({
+  port: 3000,
+  host: host,
+  routes: {
+    cors: true
+  }
+});
 
 const init = async () => {
 
