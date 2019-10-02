@@ -7,7 +7,7 @@
   "longitude": "-1.769147",
   "angler": "xavi",
   "photoUrls": [
-    "file:///Users/jjobbings/fyb/fish_server/src/images/bream.jpg"
+    "/images/bream.jpg"
   ],
   "tags": []
 }

@@ -18,8 +18,8 @@ var includeSpecies = function(includedSpecies) {
   };
 };
 
-// This function takes any number of functions, and returns a function.
-// It returns a function that will "AND" together their return values of all the original functions
+// This function takes any number of functions, and returns a function -
+// that will "AND" together the return values of all the original functions
 var and = function(...funcs) {
   return function(...innerArgs) {
     return funcs.every(function(func) {

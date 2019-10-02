@@ -6,8 +6,8 @@
   "latitude": "51.038962",
   "longitude": "-1.755945",
   "photoUrls": [
-      "file:///Users/jjobbings/fyb/fish_server/src/images/chub.jpg",
-      "file:///Users/jjobbings/fyb/fish_server/src/images/carp.jpg"
+      "/images/chub.jpg",
+      "/images/carp.jpg"
   ],
   "angler": "jon j",
   "tags": []

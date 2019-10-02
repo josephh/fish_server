@@ -1,10 +1,10 @@
 {
-	"species": "pike",
-	"weight": "2 kg",
-	"length": "12cm",
-	"latitude": 51.055551,
-	"longitude": -1.769147,
-	"photoUrls": [],
-	"angler": "jon j",
-	"id": 4
+  "species": "pike",
+  "weight": "2 kg",
+  "length": "12cm",
+  "latitude": 51.055551,
+  "longitude": -1.769147,
+  "photoUrls": [],
+  "angler": "jon j",
+  "id": 4
 }
